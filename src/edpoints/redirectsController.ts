@@ -23,17 +23,14 @@ const postRedirectsHandler = async (
   const { headers } = request;
   const contentType = headers.get("Content-Type");
 
-  if (
-    !request.body ||
-    contentType !== "application/json"
-  ) {
+  if (!request.body || contentType !== "application/json") {
     console.log("bodyUsed", request.bodyUsed);
     console.log("body is null", request.body == null);
     console.log("contentType", { contentType });
     return badRequest("Missing body");
   }
 
-  const body: any = await request.json();
+  const body: any = await request.json().catch(() => {});
   const to = body?.to;
   if (!to || typeof to !== "string" || to.length === 0) {
     return badRequest("Validation of property 'to' failed");

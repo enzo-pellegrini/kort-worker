@@ -12,8 +12,6 @@ import { redirectsApi } from "./edpoints/redirectsController";
 import { redirectUser } from "./edpoints/redirectUser";
 import { protectedRoutes } from "./utils";
 
-
-
 const handleRequest = async (request: Request): Promise<Response> => {
   const { url, method } = request;
   const { pathname } = new URL(url);
@@ -31,5 +29,9 @@ const handleRequest = async (request: Request): Promise<Response> => {
 };
 
 addEventListener("fetch", (event) =>
-  event.respondWith(handleRequest(event.request))
+  event.respondWith(
+    handleRequest(event.request).catch(
+      () => new Response("Internal Server Error", { status: 500 })
+    )
+  )
 );
