@@ -12,7 +12,11 @@ import { redirectsApi } from "./edpoints/redirectsController";
 import { redirectUser } from "./edpoints/redirectUser";
 import { protectedRoutes } from "./utils";
 
-const handleRequest = async (request: Request): Promise<Response> => {
+declare global {
+  const BASE_PATH: string
+}
+
+const handleRequest = (request: Request): Promise<Response> => {
   const { url, method } = request;
   const { pathname } = new URL(url);
 
@@ -21,8 +25,7 @@ const handleRequest = async (request: Request): Promise<Response> => {
   }
 
   if (protectedRoutes.includes(pathname)) {
-    const response = await fetch(request);
-    return response;
+    return fetch(BASE_PATH + pathname);
   }
 
   return redirectUser(pathname, method);

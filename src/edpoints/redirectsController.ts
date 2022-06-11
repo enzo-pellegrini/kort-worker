@@ -1,4 +1,4 @@
-import { getRedirect, createRedirect } from "../db";
+import { createRedirect, getRedirect } from "../data";
 import { badRequest, jsonResponse, log } from "../utils";
 import { protectedRoutes } from "../utils";
 
@@ -16,6 +16,15 @@ const getRedirectsHandler = async (
   return jsonResponse({ to }, 200);
 };
 
+const validateSlug = (slug: string): boolean => {
+  return (
+    slug !== null &&
+    typeof slug === "string" &&
+    slug.length > 0 &&
+    slug.indexOf("/") === -1
+  );
+};
+
 const postRedirectsHandler = async (
   slug: string,
   request: Request
@@ -24,9 +33,6 @@ const postRedirectsHandler = async (
   const contentType = headers.get("Content-Type");
 
   if (!request.body || contentType !== "application/json") {
-    console.log("bodyUsed", request.bodyUsed);
-    console.log("body is null", request.body == null);
-    console.log("contentType", { contentType });
     return badRequest("Missing body");
   }
 
@@ -34,6 +40,9 @@ const postRedirectsHandler = async (
   const to = body?.to;
   if (!to || typeof to !== "string" || to.length === 0) {
     return badRequest("Validation of property 'to' failed");
+  }
+  if (!validateSlug(slug)) {
+    return badRequest("invalid slug");
   }
   if (protectedRoutes.includes("/" + to)) {
     return jsonResponse({ msg: "This route is reserved" }, 403);

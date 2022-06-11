@@ -12,4 +12,4 @@ export const badRequest = (err?: string) =>
 export const protectedRoutes = ["/", "/index.html", "/favicon.ico"];
 
 export const log = (tag: string, ...args: any[]) =>
-  console.log(`\x1b[41m${tag}`, ...args);
+  console.log(tag, ...args);

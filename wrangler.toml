@@ -2,6 +2,15 @@ name = "kort-worker"
 main = "dist/index.js"
 compatibility_date = "2022-06-03"
 
+kv_namespaces = [
+    { binding = "REDIRECTS", id = "3e0a7fd787124e368a5aaf496bc7b2a1", preview_id = "fc52cad72d494875b91954b4299b8c84" }
+]
+
+workers_dev = true
+
+[vars]
+BASE_PATH = "https://kort.enzopellegrini.me"
+
 # [build]
 # command = "npm i && npm run build"
 

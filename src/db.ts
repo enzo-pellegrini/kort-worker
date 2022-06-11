@@ -23,7 +23,7 @@ export const getRedirect = async (id: string): Promise<string | null> => {
   return record?.to ?? null;
 };
 
-export const createRedirect = async (id: string, to: string): Promise<Boolean> => {
+export const createRedirect = async (id: string, to: string): Promise<boolean> => {
   log(TAG, "createRedirect", id);
 
   const record = await client().redirect.findFirst({

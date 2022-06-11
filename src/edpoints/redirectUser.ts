@@ -1,4 +1,4 @@
-import { getRedirect } from "../db";
+import { getRedirect } from "../data";
 import { badRequest, jsonResponse, log } from "../utils";
 
 const TAG = "redirectUser";
